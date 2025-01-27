@@ -47,8 +47,23 @@ def get_match_info(match_id):
     return response.json()
 
 
+def get_tft_response(endpoint, **kwargs):
+    params = {
+        'api_key': API_KEY,
+    }
+    url = f"{DOMAIN_URL}/{endpoint}"
+    url = url.format(**kwargs)
+    response = requests.get(url, params=params)
+    return response.json()
+
+
 def persist_matches(gamer_name, tag_line):
-    account_info = get_account_info(gamer_name, tag_line)
+    # account_info = get_account_info(gamer_name, tag_line)
+    account_info = get_tft_response(
+        ACCOUNT_URL,
+        **{'gamer_name': gamer_name, 'tag_line': tag_line},
+    )
+    print(account_info)
     match_ids = get_match_ids(account_info['puuid'])
     stored_match_ids = get_stored_match_ids()
     for match_id in match_ids:
