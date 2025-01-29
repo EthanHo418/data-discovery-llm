@@ -83,16 +83,20 @@ def parse_match_info(file_path):
 
 
 def persist_csv(file_path, data):
-    with open(file_path, mode="w", newline="") as file:
-        writer = csv.DictWriter(file, fieldnames=data[0].keys())
-        writer.writeheader()
-        writer.writerows(data)
+    if os.path.exists(file_path):
+        with open(file_path, mode="a", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=data[0].keys())
+            writer.writerows(data)
+    else:
+        with open(file_path, mode="w", newline="") as file:
+            writer = csv.DictWriter(file, fieldnames=data[0].keys())
+            writer.writeheader()
+            writer.writerows(data)
 
 
-if __name__ == '__main__':
-    # persist_matches('PPG Rex', 'PPG')
-    # persist_matches('StuckStepLaner', 'NA1')
-    match_info = parse_match_info('data/match/NA1_5193017032.json')
+def ingest_match(file_path):
+    print(file_path)
+    match_info = parse_match_info("data/match/" + file_path)
     match_data = []
 
     game_datetime = str(datetime.fromtimestamp(match_info['info']['game_datetime'] / 1000))
@@ -108,9 +112,11 @@ if __name__ == '__main__':
             "map_id": match_info['info']['mapId'],
         }
     )
-    persist_csv('matches.csv', match_data)
 
     participant_data = []
+    trait_data = []
+    unit_data = []
+    item_data = []
     for participant in match_info['info']['participants']:
         participant_data.append(
             {
@@ -118,10 +124,70 @@ if __name__ == '__main__':
                 "puuid": participant['puuid'],
                 "gamer_name": participant['riotIdGameName'],
                 "tag_line": participant['riotIdTagline'],
-                "partner_group_id": participant['partner_group_id'],
+                "partner_group_id": None if 'partner_group_id' not in participant else participant['partner_group_id'],
                 "companion": participant['companion']['species'],
                 "gold_left": participant['gold_left'],
                 "placement": participant['placement']
             }
         )
+        for trait in participant['traits']:
+            trait_data.append(
+                {
+                    "match_id": match_info['metadata']['match_id'],
+                    "puuid": participant['puuid'],
+                    'name': trait['name'],
+                    'num_units': trait['num_units'],
+                    'style': trait['style'],
+                    'tier_current': trait['tier_current'],
+                    'tier_total': trait['tier_total'],
+                }
+            )
+        unit_names = {}
+        for unit in participant['units']:
+            if unit['character_id'] not in unit_names:
+                unit_names[unit['character_id']] = 1
+            else:
+                unit_names[unit['character_id']] += 1
+            unit_data.append(
+                {
+                    "match_id": match_info['metadata']['match_id'],
+                    "puuid": participant['puuid'],
+                    'name': unit['character_id'],
+                    'identifier': unit_names[unit['character_id']],
+                    'rarity': unit['rarity'],
+                    'tier': unit['tier'],
+                }
+            )
+            for item in unit['itemNames']:
+                item_data.append(
+                    {
+                        "match_id": match_info['metadata']['match_id'],
+                        "puuid": participant['puuid'],
+                        'unit_name': unit['character_id'],
+                        'identifier': unit_names[unit['character_id']],
+                        'name': item,
+                    }
+                )
+
+    persist_csv('matches.csv', match_data)
     persist_csv('participants.csv', participant_data)
+    persist_csv('traits.csv', trait_data)
+    persist_csv('units.csv', unit_data)
+    persist_csv('items.csv', item_data)
+
+
+def get_match_files(directory):
+    file_paths = []
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        if os.path.isfile(file_path):  # Ensure it's a file, not a folder
+            file_paths.append(filename)
+    return file_paths
+
+
+if __name__ == '__main__':
+    file_paths = get_match_files('data/match/')
+    for match_file in file_paths:
+        ingest_match(match_file)
+    # persist_matches('PPG Rex', 'PPG')
+    # persist_matches('StuckStepLaner', 'NA1')
