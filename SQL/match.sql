@@ -1,3 +1,4 @@
+drop TABLE if exists matches;
 CREATE TABLE matches (
     match_id VARCHAR(50) PRIMARY KEY,       -- Unique match identifier
     game_datetime TIMESTAMP,               -- Timestamp when the game started
