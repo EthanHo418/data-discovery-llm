@@ -127,7 +127,8 @@ def ingest_match(file_path):
                 "partner_group_id": None if 'partner_group_id' not in participant else participant['partner_group_id'],
                 "companion": participant['companion']['species'],
                 "gold_left": participant['gold_left'],
-                "placement": participant['placement']
+                "placement": participant['placement'],
+                "win": participant['win']
             }
         )
         for trait in participant['traits']:

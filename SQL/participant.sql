@@ -8,5 +8,6 @@ CREATE TABLE participants (
     companion VARCHAR(255),       -- Unique match identifier
     gold_left INT,
     placement INT,
+    win BOOLEAN,
     PRIMARY KEY(match_id, puuid)
 );
