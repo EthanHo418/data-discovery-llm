@@ -4,8 +4,8 @@ truncate participants;
 truncate trait;
 truncate unit;
 
-\copy item            from    items.csv header csv;
-\copy matches         from    matches.csv header csv;
-\copy participants    from    participants.csv header csv;
-\copy trait           from    traits.csv header csv;
-\copy unit            from    units.csv header csv;
+\copy item            from    data/csv/items.csv header csv;
+\copy matches         from    data/csv/matches.csv header csv;
+\copy participants    from    data/csv/participants.csv header csv;
+\copy trait           from    data/csv/traits.csv header csv;
+\copy unit            from    data/csv/units.csv header csv;
