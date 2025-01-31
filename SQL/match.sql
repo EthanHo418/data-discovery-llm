@@ -8,4 +8,4 @@ CREATE TABLE matches (
     end_game_result VARCHAR(50),           -- End result of the game
     game_id BIGINT,                        -- Numeric identifier of the game
     map_id INT                             -- Map identifier
-);pp
+);

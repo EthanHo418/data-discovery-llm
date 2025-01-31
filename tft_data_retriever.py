@@ -174,11 +174,11 @@ def ingest_match(file_path):
                     }
                 )
 
-    persist_csv('matches.csv', match_data)
-    persist_csv('participants.csv', participant_data)
-    persist_csv('traits.csv', trait_data)
-    persist_csv('units.csv', unit_data)
-    persist_csv('items.csv', item_data)
+    persist_csv('data/csv/matches.csv', match_data)
+    persist_csv('data/csv/participants.csv', participant_data)
+    persist_csv('data/csv/traits.csv', trait_data)
+    persist_csv('data/csv/units.csv', unit_data)
+    persist_csv('data/csv/items.csv', item_data)
 
 
 def get_match_files(directory):
@@ -191,8 +191,11 @@ def get_match_files(directory):
 
 
 if __name__ == '__main__':
-    #file_paths = get_match_files('data/match/')
-    #for match_file in file_paths:
-    # ingest_match(match_file)
-    persist_matches('PPG Rex', 'PPG')
-    # persist_matches('StuckStepLaner', 'NA1')
+
+    file_paths = get_match_files('data/match/')
+    for match_file in file_paths:
+        ingest_match(match_file)
+
+    #persist_matches('PPG Rex', 'PPG')
+    #persist_matches('StuckStepLaner', 'NA1')
+    #persist_matches('PPG Mirotix', 'NA1')
