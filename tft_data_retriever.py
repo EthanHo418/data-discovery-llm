@@ -2,14 +2,15 @@ import requests
 import json
 import os
 import csv
-from datetime import datetime
+from datetime import datetime, timedelta, timezone
 
-API_KEY = "RGAPI-57179589-e02c-4645-b464-fdfad4485114"
+API_KEY = "RGAPI-d76ec4b1-d593-4c4b-933e-32e6cae866d5"
 DOMAIN_URL = "https://americas.api.riotgames.com"
 ACCOUNT_URL = "riot/account/v1/accounts/by-riot-id/{gamer_name}/{tag_line}"
 MATCH_URL = "tft/match/v1/matches/by-puuid/{puuid}/ids"
 MATCH_INFO_URL = "tft/match/v1/matches/{match_id}"
-
+TWO_MONTHS_AGO = int((datetime.now(timezone.utc) - timedelta(days=60)).timestamp())  # 2 months ago in UTC
+COUNT = 5000
 
 def get_stored_match_ids():
     directory_path = 'data/match/'
@@ -31,6 +32,9 @@ def get_account_info(gamer_name, tag_line):
 
 def get_match_ids(puuid):
     params = {
+        'start': 0,
+        'startTime': TWO_MONTHS_AGO,
+        'count': COUNT,
         'api_key': API_KEY,
     }
     url = f"{DOMAIN_URL}/{MATCH_URL}"
@@ -187,8 +191,8 @@ def get_match_files(directory):
 
 
 if __name__ == '__main__':
-    file_paths = get_match_files('data/match/')
-    for match_file in file_paths:
-        ingest_match(match_file)
-    # persist_matches('PPG Rex', 'PPG')
+    #file_paths = get_match_files('data/match/')
+    #for match_file in file_paths:
+    # ingest_match(match_file)
+    persist_matches('PPG Rex', 'PPG')
     # persist_matches('StuckStepLaner', 'NA1')
