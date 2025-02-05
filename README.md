@@ -121,5 +121,6 @@ print(matches)
 📧 ethan.ho4181@gmail.com
 
 ## 🌟 Acknowledgments
-Riot Games API for providing match data
-SQLAlchemy & Alembic for seamless database management
+Riot Games API for providing match data.
+
+SQLAlchemy & Alembic for seamless database management.
