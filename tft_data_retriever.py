@@ -3,6 +3,8 @@ import json
 import os
 import csv
 from datetime import datetime, timedelta, timezone
+import tft
+
 
 API_KEY = "RGAPI-d76ec4b1-d593-4c4b-933e-32e6cae866d5"
 DOMAIN_URL = "https://americas.api.riotgames.com"
