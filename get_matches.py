@@ -1,4 +1,3 @@
-
 from dotenv import load_dotenv
 from psycopg2.extras import DictCursor
 from tft import data_store
@@ -20,6 +19,7 @@ connection = data_store.get_connection(DB_URL)
 cursor = connection.cursor(cursor_factory=DictCursor)
 tft = tft.TFT(API_KEY)
 
+counter = 1
 
 tier = 'DIAMOND'
 division = 'I'
@@ -34,3 +34,4 @@ for player in players:
 
 connection.commit()
 connection.close()
+
