@@ -25,18 +25,22 @@ DB_URL = os.environ['DB_URL']
 # loop through matches and insert into database
 
 if __name__ == '__main__':
-    connection = data_store.get_connection(DB_URL)
-    cursor = connection.cursor(cursor_factory=DictCursor)
     tft = TFT(API_KEY)
 
+    connection = data_store.get_connection(DB_URL)
+    cursor = connection.cursor(cursor_factory=DictCursor)
     match_ids = data_store.get_match_ids(cursor)
+    connection.commit()
+    connection.close()
     for i, match_id in enumerate(match_ids):
+        connection = data_store.get_connection(DB_URL)
+        cursor = connection.cursor(cursor_factory=DictCursor)
         logger.info(f"match_id: {match_id} ({i+1}/{len(match_ids)})")
         match_info = tft.get_match_info(match_id)
         data_store.set_match_info(cursor, match_info)
+        connection.commit()
+        connection.close()
 
         # if i == 10:
         #     break
 
-    connection.commit()
-    connection.close()
