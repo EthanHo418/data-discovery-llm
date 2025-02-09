@@ -27,7 +27,7 @@ def get_match_ids(cursor):
     cursor.execute(query)
     return [x[0] for x in cursor.fetchall()]
 
-2
+
 def get_players(cursor):
     query = "SELECT distinct puuid FROM player order by puuid"
     cursor.execute(query)
