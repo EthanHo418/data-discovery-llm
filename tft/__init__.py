@@ -42,6 +42,8 @@ class TFT:
         url = f"{domain}/{endpoint}"
         url = url.format(**kwargs)
         response = requests.get(url, headers=self._headers)
+        if response.status_code != 200:
+            print(response.url)
         return response.json()
 
     def get_summoners(self, tier, division, queue, page=1):
@@ -62,6 +64,7 @@ class TFT:
 
     def get_match_info(self, match_id):
         return self.get_tft_response(
+            domain=self.DOMAIN_URL,
             endpoint=self.MATCH_INFO_URL,
-            **{}
+            **{'match_id': match_id}
         )

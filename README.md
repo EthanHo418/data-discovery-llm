@@ -39,12 +39,18 @@ It efficiently paginates through match history, extracts key game details, and l
 
 ---
 
+## Prerequisites
+### Python3
+### Postgresql
+
+https://www.postgresql.org/
+
 ## 📦 Installation
 
 #### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/tft-match-pipeline.git
-cd tft-match-pipeline
+git clone git@github.com:EthanHo418/data-discovery-llm.git
+cd data-discovery-llm
 ```
 #### 2️⃣ Set Up Virtual Environment
 ```bash

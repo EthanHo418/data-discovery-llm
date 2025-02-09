@@ -198,6 +198,6 @@ if __name__ == '__main__':
     for match_file in file_paths:
         ingest_match(match_file)
 
-    #persist_matches('PPG Rex', 'PPG')
+    persist_matches('PPG Rex', 'PPG')
     #persist_matches('StuckStepLaner', 'NA1')
     #persist_matches('PPG Mirotix', 'NA1')
