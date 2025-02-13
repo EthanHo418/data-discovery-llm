@@ -42,10 +42,7 @@ It efficiently paginates through match history, extracts key game details, and l
 ## 📦 Installation
 
 #### 1️⃣ Clone the Repository
-```bash
-git clone https://github.com/your-username/tft-match-pipeline.git
-cd tft-match-pipeline
-```
+
 #### 2️⃣ Set Up Virtual Environment
 ```bash
 python -m venv venv
