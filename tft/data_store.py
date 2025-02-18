@@ -20,7 +20,6 @@ def set_match(cursor,  puuid,  match_id):
     query = "select puuids from matches where match_id = %s"
     cursor.execute(query,  (match_id, ))
     row = cursor.fetchone()
-    print(row)
     if row:
         if row[0] is None:
             row[0] = []
@@ -38,9 +37,9 @@ def get_match_ids(cursor):
     return [x[0] for x in cursor.fetchall()]
 
 
-def get_players(cursor, tier, division):
-    query = "SELECT distinct puuid FROM player WHERE tier = %s and division = %s order by puuid"
-    cursor.execute(query, (tier, division))
+def get_players(cursor, tier, division, queue):
+    query = "SELECT distinct puuid FROM player WHERE tier = %s and division = %s and queue = %s order by puuid"
+    cursor.execute(query, (tier, division, queue))
     return cursor.fetchall()
 
 

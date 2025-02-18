@@ -1,5 +1,13 @@
 import requests
 import utils
+import json
+import time
+import logging
+
+logger = logging.getLogger(__name__)
+
+from tft_data_retriever import get_tft_response
+
 
 class TFT:
     DOMAIN_URL = "https://americas.api.riotgames.com"
@@ -44,6 +52,14 @@ class TFT:
         response = requests.get(url, headers=self._headers)
         if response.status_code != 200:
             print(response.url)
+        if response.status_code == 429:
+            print(json.dumps(response.json(), indent=4))
+            logger.info("hit rate limit!")
+            for i in range(1, 130):
+                time.sleep(1)
+                if i % 10 == 0:
+                    logger.info(f"sleeping for {i} seconds")
+            return self.get_tft_response(domain, endpoint, **kwargs)
         return response.json()
 
     def get_summoners(self, tier, division, queue, page=1):
