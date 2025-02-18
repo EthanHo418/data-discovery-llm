@@ -13,7 +13,7 @@ class TFT:
     DOMAIN_URL = "https://americas.api.riotgames.com"
     NA1_DOMAIN_URL = "https://na1.api.riotgames.com"
     ACCOUNT_URL = "riot/account/v1/accounts/by-riot-id/{gamer_name}/{tag_line}"
-    MATCH_URL = "tft/match/v1/matches/by-puuid/{puuid}/ids?count={count}&startTime={start_time}&endTime={end_time}"
+    MATCH_URL = "tft/match/v1/matches/by-puuid/{puuid}/ids?count={count}&startTime={start_time}&endTime={end_time}&api_key={api_key}"
     MATCH_INFO_URL = "tft/match/v1/matches/{match_id}"
     ENTRIES_URL = "tft/league/v1/entries/{tier}/{division}?queue={queue}&page={page}"
 
@@ -26,6 +26,8 @@ class TFT:
         'SILVER',
         'BRONZE',
         'IRON',
+
+
     ]
 
     DIVISIONS = [
@@ -49,11 +51,16 @@ class TFT:
     def get_tft_response(self, domain, endpoint, **kwargs):
         url = f"{domain}/{endpoint}"
         url = url.format(**kwargs)
-        response = requests.get(url, headers=self._headers)
+        time.sleep(2)
+        #response = requests.get(url, headers=self._headers)
+        response = requests.get(url)
+
         if response.status_code != 200:
-            print(response.url)
+            logger.info(response.url)
+            logger.info(response.json)
+            return None
         if response.status_code == 429:
-            print(json.dumps(response.json(), indent=4))
+            logger.info(json.dumps(response.json(), indent=4))
             logger.info("hit rate limit!")
             for i in range(1, 130):
                 time.sleep(1)
@@ -69,13 +76,13 @@ class TFT:
             **{'tier': tier, 'division': division, 'queue': queue, 'page': page}
         )
 
-    def get_match_ids(self, puuid, start_time, end_time):
+    def get_match_ids(self, puuid, start_time, end_time, api_key):
         start_epoch = utils.to_epoch(start_time)
         end_epoch = utils.to_epoch(end_time)
         return self.get_tft_response(
             domain=self.DOMAIN_URL,
             endpoint=self.MATCH_URL,
-            **{'puuid': puuid, 'start_time': start_epoch, 'end_time': end_epoch, 'count': 5000}
+            **{'puuid': puuid, 'start_time': start_epoch, 'end_time': end_epoch, 'count': 5000, 'api_key':api_key}
         )
 
     def get_match_info(self, match_id):

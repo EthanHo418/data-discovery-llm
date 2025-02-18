@@ -40,6 +40,8 @@ if __name__ == '__main__':
     except:
         if connection:
             connection.close()
+        import traceback
+        traceback.print_exc()
         # if i == 10:
         #     break
 

@@ -28,7 +28,7 @@ if __name__ == '__main__':
                 players = tft.get_summoners(tier, division, queue, 1)
                 for player in players:
                     data_store.set_player(cursor, player)
-
+                    break
     connection.commit()
     connection.close()
     #

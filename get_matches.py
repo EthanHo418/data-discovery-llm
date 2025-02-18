@@ -41,22 +41,26 @@ queues = ['RANKED_TFT', 'RANKED_TFT_DOUBLE_UP']
 
 for tier in tiers:
     for division in divisions:
-        if tier == 'DIAMOND' and division == 'I':
-            continue
         for queue in queues:
+            successful_matches = 0
             players = data_store.get_players(cursor, tier, division, queue)
-            logger.info(f"{len(players)} for {tier}: {division} - {queue}")
             for i, player in enumerate(players):
-                logger.info(f"{i} / {len(players)} players fetched")
                 start_time = '2025-02-05 00:00:00'
                 end_time = '2025-02-05 23:59:59'
-                match_ids = tft.get_match_ids(player['puuid'], start_time, end_time)
+                match_ids = tft.get_match_ids(player['puuid'], start_time, end_time, API_KEY)
+                if match_ids is None:
+                    continue
+                successful_matches += 1
+                logger.info(f"{tier}: {division} - {queue} number of matches: {len(match_ids)} , {i}")
                 for match_id in match_ids:
                     data_store.set_match(cursor, player['puuid'], match_id)
                 connection.commit()
-                import sys
-                sys.exit()
+                if successful_matches == 10:
+                    break
 
 
 connection.close()
 
+# https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/--H8F4Cqu1D5-DKIIHXbpTsgRhvuaKEKSDjRRZYXGU0lsdqusdJe5Zil2ZhZYhOoCgnqAYq3rhm3Dw/ids?count=5000&startTime=1738731600&endTime=1738817999&api_key=RGAPI-11602b19-03f6-4f82-977a-9ff2a19c879d
+# https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/GDnSvBpoheknmiA9fvUweGIvFjyEGkT9IAJYaExRbrTF4O-R3BqySNt4GRhptF7PEHMpezTS5derPg/ids?start=0&count=20&api_key=RGAPI-11602b19-03f6-4f82-977a-9ff2a19c879d
+# https://americas.api.riotgames.com/tft/match/v1/matches/by-puuid/EIAVktspMSeUD4CvCYC4tYrTB33Ihngol2UotoqKzrcUvTNxM-CuJdoHA3slyhryowXxYtSCVDHQRA/ids?start=0&count=20&api_key=RGAPI-11602b19-03f6-4f82-977a-9ff2a19c879d
