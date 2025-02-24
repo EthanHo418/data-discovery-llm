@@ -14,7 +14,7 @@ class TFT:
     NA1_DOMAIN_URL = "https://na1.api.riotgames.com"
     ACCOUNT_URL = "riot/account/v1/accounts/by-riot-id/{gamer_name}/{tag_line}"
     MATCH_URL = "tft/match/v1/matches/by-puuid/{puuid}/ids?count={count}&startTime={start_time}&endTime={end_time}&api_key={api_key}"
-    MATCH_INFO_URL = "tft/match/v1/matches/{match_id}"
+    MATCH_INFO_URL = "tft/match/v1/matches/{match_id}?api_key={api_key}"
     ENTRIES_URL = "tft/league/v1/entries/{tier}/{division}?queue={queue}&page={page}"
 
     PAGINATION_COUNT = 5000
@@ -85,9 +85,9 @@ class TFT:
             **{'puuid': puuid, 'start_time': start_epoch, 'end_time': end_epoch, 'count': 5000, 'api_key':api_key}
         )
 
-    def get_match_info(self, match_id):
+    def get_match_info(self, match_id, api_key):
         return self.get_tft_response(
             domain=self.DOMAIN_URL,
             endpoint=self.MATCH_INFO_URL,
-            **{'match_id': match_id}
+            **{'match_id': match_id, 'api_key':api_key}
         )

@@ -1,6 +1,7 @@
 import os
 import logging
 
+import psycopg2
 from dotenv import load_dotenv
 from psycopg2.extras import DictCursor
 from tft import data_store
@@ -30,13 +31,20 @@ if __name__ == '__main__':
     connection = None
     try:
         connection = data_store.get_connection(DB_URL)
+        connection.autocommit = True
         cursor = connection.cursor(cursor_factory=DictCursor)
         match_ids = data_store.get_match_ids(cursor)
         for i, match_id in enumerate(match_ids):
-            logger.info(f"match_id: {match_id} ({i+1}/{len(match_ids)})")
-            match_info = tft.get_match_info(match_id)
-            data_store.set_match_info(cursor, match_info)
-            connection.commit()
+            try:
+                logger.info(f"match_id: {match_id} ({i+1}/{len(match_ids)})")
+                match_info = tft.get_match_info(match_id, API_KEY)
+                if match_info is None:
+                    logger.info(f"returning null from api {match_id}" )
+                    continue
+                data_store.set_match_info(cursor, match_info)
+                #connection.commit()
+            except psycopg2.errors.UniqueViolation as e:
+                pass
     except:
         if connection:
             connection.close()
