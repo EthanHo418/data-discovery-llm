@@ -1,0 +1,97 @@
+<!-- v1_interactive -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ethan Ho | Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            background: linear-gradient(to right, #1a1a2e, #16213e);
+            color: white;
+        }
+        .navbar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 30px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+        .content {
+            margin-top: 150px;
+            animation: fadeIn 2s ease-in;
+        }
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid white;
+            transition: transform 0.3s;
+        }
+        .profile-img:hover {
+            transform: scale(1.1);
+        }
+        a {
+            text-decoration: none;
+            color: #00a8ff;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        a:hover {
+            color: #ff9f43;
+        }
+        .typing-text::after {
+            content: '|';
+            display: inline-block;
+            animation: blink 0.7s infinite;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+        .social-icons a {
+            font-size: 24px;
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>onlytrends.co</div>
+        <div>
+            <a href="#portfolio">Portfolio</a>
+            <a href="#resume">Resume</a>
+            <a href="#blog">Blog</a>
+        </div>
+        <div class="social-icons">
+            <a href="https://www.linkedin.com/in/ethanho418/" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/EthanHo418" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+        </div>
+    </div>
+    <div class="content">
+        <img src="profile.jpg" alt="Ethan Ho" class="profile-img">
+        <h1>Ethan Ho</h1>
+        <p class="typing-text">Data viz, ETL, analytics</p>
+    </div>
+</body>
+</html>
