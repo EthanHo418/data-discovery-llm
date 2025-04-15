@@ -103,7 +103,6 @@ Retrieve match history for PPG Rex from the past 2 months:
 
 python
 
-
 from src.riot_api import get_match_ids
 
 puuid = "DqNKF8vPZ9JKsUhKOQ39ijH2p3w660wHowxqnBPnihBgeHyj4Ws7LS9xlHm2lY9claiP_ztgZcDjDQ"
