@@ -105,7 +105,7 @@ python
 
 from src.riot_api import get_match_ids
 
-puuid = "DqNKF8vPZ9JKsUhKOQ39ijH2p3w660wHowxqnBPnihBgeHyj4Ws7LS9xlHm2lY9claiP_ztgZcDjDQ"
+puuid = "abcde"
 matches = get_match_ids(puuid, startTime=TWO_MONTHS_AGO, count=100)
 print(matches)
 
